@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Unique page title - My Site</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body>
+  <!-- Content -->
+  <div class="container">
+    <div class="row">
+      <h1>QQQ: ${{quote.last}}</h1>
+      {% if date %}
+        <h3>{{date}}</h3>  
+      {% endif %}
+      
+    </div>
+    <div class="row">
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      {% for expiration_week in dates %}
+          <div class="btn-group mr-2" role="group" style="margin-bottom: 10px;" aria-label="First group">
+          {% for expiration in expiration_week %}
+            
+            {% if date and date === expiration.toFormat('yyyy-MM-dd') %}
+              <a type="button" class="btn btn-secondary active" href="QQQ/{{expiration.toFormat('yyyy-MM-dd')}}">{{expiration.toFormat('MMM dd')}}</a>
+            {% else %}
+              <a type="button" class="btn btn-secondary" href="/QQQ/{{expiration.toFormat('yyyy-MM-dd')}}">{{expiration.toFormat('MMM dd')}}</a>
+            {% endif %}
+          {% endfor %}
+          </div>
+      {% endfor %}
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-dark">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if chain %}
+            {% for option in chain %}
+              <tr>
+                <th scope="row">{{option.strike}}</th>
+                <td>{{(option.bid+option.ask)/2}}</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+              </tr>              
+            {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="/js/bootstrap.min.js"></script>
+</body>
+</html> 
