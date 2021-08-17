@@ -18,7 +18,7 @@ router.get('/QQQ/:date', async(req, res, next)=> {
   try {
     const quote = await qqq.stock_lookup();
     const dates = await qqq.expirations_dates(5);
-    const chain = await qqq.options_lookup(req.params.date);
+    const chain = await qqq.options_lookup(req.params.date, quote.last);
     res.render('index.njk', { title: 'QQQ Options', quote:quote, dates:dates, date:req.params.date, chain:chain});
 
   } catch(error) {

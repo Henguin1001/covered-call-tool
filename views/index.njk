@@ -6,6 +6,14 @@
 
   <title>Unique page title - My Site</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <style>
+    .bg-green {
+      background-color: #dff0d8;
+    }
+    .bg-red {
+      background-color: #f2dede;
+    }
+  </style>
 </head>
 
 <body>
@@ -38,20 +46,31 @@
       <table class="table table-dark">
         <thead class="thead-light">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Strike</th>
+            <th scope="col">Premium</th>
+            <th scope="col">Yield Assigned ($)</th>
+            <th scope="col">Yield Assigned (%)</th>
+            <th scope="col">Break Even</th>
+            <th scope="col">Avg Daily Yield ($/d)</th>
+            <th scope="col">ADY(ppm/d)</th>
+            
+            
+            
           </tr>
         </thead>
         <tbody>
           {% if chain %}
             {% for option in chain %}
-              <tr>
-                <th scope="row">{{option.strike}}</th>
-                <td>{{(option.bid+option.ask)/2}}</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+              <tr class="">
+                <th scope="row" class = "{% if option.strike > quote.last %}text-warning{% else %}text-success{% endif %}">${{option.strike}}</th>
+                <td>{{option.mark | round(2)}}</td>
+                <td class="text-success"><b>${{option.assignment_gain | round(2)}} </b></td>
+                <td>{{option.assignment_gain_percent | round(2)}}%</td>
+                <td>{{option.break_even | round(2)}}</td>
+                <td>{{option.time_gain | round(2)}}</td>
+                <td>{{(10000*option.time_gain_percent) | round }}</td>
+                 
+                
               </tr>              
             {% endfor %}
           {% endif %}
