@@ -6,7 +6,7 @@ let api_key;
 if(process.env.api_key){  
   api_key = process.env.api_key;
 } else {
-  api_key = require('../credentials.secret.json').api_key;
+  // api_key = require('../credentials.secret.json').api_key;
 }
 
 const tradier = new Tradier(api_key, "sandbox");
