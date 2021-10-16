@@ -2,19 +2,19 @@ var express = require('express');
 var router = express.Router();
 const Tradier = require('tradier-api');
 const Stock_Model = require('../src/stock_model.js');
+
 let api_key;
 if(process.env.api_key){  
   api_key = process.env.api_key;
 } else {
-  // api_key = require('../credentials.secret.json').api_key;
+  api_key = require('../credentials.secret.json').api_key;
 }
 
-const tradier = new Tradier(api_key, "sandbox");
 
 const stock_whitelist = {
-  "QQQ": new Stock_Model("QQQ"),
-  "SLV": new Stock_Model("SLV"),
-  "GLD": new Stock_Model("GLD")
+  "QQQ": new Stock_Model(api_key, "QQQ"),
+  "SLV": new Stock_Model(api_key, "SLV"),
+  "GLD": new Stock_Model(api_key, "GLD")
 }
 router.get('/', async(req, res, next)=> {
   res.render('index.njk', {home:true });

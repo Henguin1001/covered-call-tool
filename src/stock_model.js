@@ -2,14 +2,12 @@ const {DateTime} = require('luxon');
 const Tradier = require('tradier-api');
 const Option = require('./option.js');
 const CoveredCall = require('./covered_call.js');
-const credentials = require('../credentials.secret.json');
-
 
 
 class StockModel {
-    constructor(symbol="QQQ"){
+    constructor(api_key, symbol="QQQ"){
         this.symbol = symbol;
-        this.tradier = new Tradier(credentials.api_key, "sandbox");
+        this.tradier = new Tradier(api_key, "sandbox");
     }
     async stock_lookup(){
         return this.tradier.getQuote(this.symbol);
