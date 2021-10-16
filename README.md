@@ -8,6 +8,3 @@ These include:
     - in dollars
     - in percent
 For simplicity and bandwidth purposes only three stocks are available to analyse, but those can be changed easily changed if you are hosting
-
-
-note: node modules are included in this repo so that it can be used with heroku
