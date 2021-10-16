@@ -1,10 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const Tradier = require('tradier-api');
-const credentials = require('../credentials.secret.json');
 const Stock_Model = require('../src/stock_model.js');
+let api_key;
+if(process.env.api_key){  
+  api_key = process.env.api_key;
+} else {
+  api_key = require('../credentials.secret.json').api_key;
+}
 
-const tradier = new Tradier(credentials.api_key, "sandbox");
+const tradier = new Tradier(api_key, "sandbox");
 
 const stock_whitelist = {
   "QQQ": new Stock_Model("QQQ"),
@@ -20,9 +25,6 @@ router.get('/:ticker', async(req, res, next)=> {
     const quote = await stock.stock_lookup();
     const dates = await stock.expirations_dates(5);
     const first_date = dates[0][0].toFormat('yyyy-MM-dd');
-    // res.render('index.njk', { ticker:req.params.ticker, quote:quote, dates:dates, date:false});
-    // const first_date = dates[0][0].toFormat('yyyy-MM-dd');
-    // res.write(first_date);
     res.redirect(`/${req.params.ticker}/${first_date}`)
   }
 });
@@ -41,12 +43,12 @@ router.get('/:ticker/:date', async(req, res, next)=> {
   } catch(error) {
     if(error.response.data === "Invalid Parameter: expiration"){
       res.redirect(`/${req.params.ticker}`);
+    } else {
+      console.error(error);
     }
-    // console.error(error);
   }
 
 });
 
-// 
 module.exports = router;
  

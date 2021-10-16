@@ -20,8 +20,49 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Covered Call Tool</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            {% if ticker == "QQQ" %}
+              <a class="nav-link active" href="#">QQQ
+                <span class="visually-hidden">(current)</span>
+              </a>
+            {% else %}
+              <a class="nav-link" href="/QQQ">QQQ</a>    
+            {% endif %}
+            
+          </li>
+          <li class="nav-item">
+            {% if ticker == "GLD" %}
+              <a class="nav-link active" href="#">GLD
+                <span class="visually-hidden">(current)</span>
+              </a>
+            {% else %}
+              <a class="nav-link" href="/GLD">GLD</a>    
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            {% if ticker == "SLV" %}
+              <a class="nav-link active" href="#">SLV
+                <span class="visually-hidden">(current)</span>
+              </a>
+            {% else %}
+              <a class="nav-link" href="/SLV">SLV</a>    
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <!-- Content -->
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
       <h1>{{ticker}}: ${{quote.last}}</h1>
       {% if date %}
@@ -45,14 +86,16 @@
       {% endfor %}
       </div>
     </div>
+    
     <div class="row">
+      <div id="scroll_container">
       <table class="table">
         <thead class="">
           <tr>
             <th scope="col">Strike</th>
             <th scope="col">Premium</th>
             <th scope="col">Break Even</th>
-            <th scope="col">Yield </br> Assigned ($)</th>
+            <th scope="col">Yield </br> Assigned</th>
             <!-- <th scope="col">Yield </br> Assigned (%)</th> -->
 
             {% if not simple %}
@@ -65,14 +108,26 @@
         </thead>
         <tbody>
           {% if chain %}
+            {% set itm = true %}
             {% for option in chain %}
+              {% if option.strike < quote.last and itm %}
+                <tr id="center" class="table-primary">
+                  <td>Share Price: ${{quote.last}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  
+                </tr>
+                {% set itm = false %}
+              {% endif %}
+
               <tr class="{% if option.strike > quote.last %}btn-outline-secondary{% else %}btn-outline-primary{% endif %}">
                 <!-- <th scope="row" class = "{% if option.strike > quote.last %}text-warning{% else %}text-success{% endif %}">${{option.strike}}</th> -->
                 <th scope="row" class = "{% if option.strike > quote.last %}{% else %}text-info{% endif %}"><b>${{option.strike}}</b></th>
 
                 <td>{{option.mark | round(2)}}</td>
-                <td class="text-warning">{{option.break_even | round(2)}}</td>
-                <td class="text-success"><b>${{option.assignment_gain | round(2)}} </b> ({{option.assignment_gain_percent | round(2)}}%)</td>
+                <td class="text-warning">${{option.break_even | round(2)}}</td>
+                <td class="{% if option.assignment_gain > 0 %}text-success{% else %}text-danger{% endif %}"><b>${{option.assignment_gain | round(2)}} </b> ({{option.assignment_gain_percent | round(2)}}%)</td>
                 <!-- <td></td> -->
                 {% if not simple %}
                   <td>{{option.time_gain | round(2)}}</td>
@@ -84,9 +139,11 @@
           {% endif %}
         </tbody>
       </table>
+      </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="/js/bootstrap.min.js"></script>
+
 </body>
 </html> 

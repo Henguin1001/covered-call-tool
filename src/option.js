@@ -30,57 +30,6 @@ class Option {
     }
 }
 module.exports = Option;
-
-// var option = new Option({
-//     "symbol": "VXX190517P00016000",
-//     "description": "VXX May 17 2019 $16.00 Put",
-//     "exch": "Z",
-//     "type": "option",
-//     "last": null,
-//     "change": null,
-//     "volume": 0,
-//     "open": null,
-//     "high": null,
-//     "low": null,
-//     "close": null,
-//     "bid": 0.0,
-//     "ask": 0.01,
-//     "underlying": "VXX",
-//     "strike": 16.0,
-//     "change_percentage": null,
-//     "average_volume": 0,
-//     "last_volume": 0,
-//     "trade_date": 0,
-//     "prevclose": null,
-//     "week_52_high": 0.0,
-//     "week_52_low": 0.0,
-//     "bidsize": 0,
-//     "bidexch": "J",
-//     "bid_date": 1557171657000,
-//     "asksize": 611,
-//     "askexch": "Z",
-//     "ask_date": 1557172096000,
-//     "open_interest": 10,
-//     "contract_size": 100,
-//     "expiration_date": "2021-08-09",
-//     "expiration_type": "standard",
-//     "option_type": "put",
-//     "root_symbol": "VXX",
-//     "greeks": {
-//         "delta": 1.0,
-//         "gamma": 1.95546E-10,
-//         "theta": -0.00204837,
-//         "vega": 3.54672E-9,
-//         "rho": 0.106077,
-//         "phi": -0.28801,
-//         "bid_iv": 0.0,
-//         "mid_iv": 0.0,
-//         "ask_iv": 0.0,
-//         "smv_vol": 0.380002,
-//         "updated_at": "2019-08-29 14:59:08"
-//     }
-// });
-// console.log(option.time_to_expiration());
 /*
 {
     "symbol": "VXX190517P00016000",
