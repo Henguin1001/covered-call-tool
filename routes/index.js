@@ -16,8 +16,9 @@ const stock_whitelist = {
   "SLV": new Stock_Model("SLV"),
   "GLD": new Stock_Model("GLD")
 }
-
-
+router.get('/', async(req, res, next)=> {
+  res.render('index.njk', {home:true });
+});
 /* GET home page. */
 router.get('/:ticker', async(req, res, next)=> {
   const stock = stock_whitelist[req.params.ticker];
