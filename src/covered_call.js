@@ -6,7 +6,7 @@ class CoveredCall extends Option {
         this.market_price = market_price;
         try {
             this.break_even = market_price - this.mark;
-            console.log(this.mark);
+            // console.log(this.mark);
             this.assignment_gain = 100*(this.strike+this.mark-market_price);
             this.assignment_gain_percent = this.assignment_gain/market_price;
             const tte = this.time_to_expiration();
@@ -14,7 +14,7 @@ class CoveredCall extends Option {
             this.risk = this.time/this.mark;
             this.time_gain = 24*this.assignment_gain/this.time;
             this.time_gain_percent = 24*this.assignment_gain_percent/this.time;
-            console.log(this.assignment_gain);
+            // console.log(this.assignment_gain);
         } catch (error) {
             console.error("Field Doesn't exist\n", error);
         }

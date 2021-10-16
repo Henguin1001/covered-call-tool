@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Covered Call Tool</title>
+  <title>{{ticker}} options</title>
   <link rel="stylesheet" href="/css/darkly.min.css">
   <style>
     .bg-green {
@@ -13,6 +13,9 @@
     .bg-red {
       background-color: #f2dede;
     }
+    .btn-grp-custom {
+      margin-right:  10px;
+    }
   </style>
 </head>
 
@@ -20,7 +23,7 @@
   <!-- Content -->
   <div class="container">
     <div class="row">
-      <h1>QQQ: ${{quote.last}}</h1>
+      <h1>{{ticker}}: ${{quote.last}}</h1>
       {% if date %}
         <h3>{{date}}</h3>  
       {% endif %}
@@ -29,13 +32,13 @@
     <div class="row">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
       {% for expiration_week in dates %}
-          <div class="btn-group mr-2" role="group" style="margin-bottom: 10px;" aria-label="First group">
+          <div class="btn-grp-custom btn-group mr-2" role="group" style="margin-bottom: 10px;" aria-label="First group">
           {% for expiration in expiration_week %}
             
             {% if date and date === expiration.toFormat('yyyy-MM-dd') %}
-              <a type="button" class="btn btn-secondary active" href="QQQ/{{expiration.toFormat('yyyy-MM-dd')}}">{{expiration.toFormat('MMM dd')}}</a>
+              <a type="button" class="btn btn-secondary active" href="#">{{expiration.toFormat('MMM dd')}}</a>
             {% else %}
-              <a type="button" class="btn btn-secondary" href="/QQQ/{{expiration.toFormat('yyyy-MM-dd')}}">{{expiration.toFormat('MMM dd')}}</a>
+              <a type="button" class="btn btn-secondary" href="/{{ticker}}/{{expiration.toFormat('yyyy-MM-dd')}}">{{expiration.toFormat('MMM dd')}}</a>
             {% endif %}
           {% endfor %}
           </div>
@@ -48,12 +51,14 @@
           <tr>
             <th scope="col">Strike</th>
             <th scope="col">Premium</th>
-            <th scope="col">Yield Assigned ($)</th>
-            <th scope="col">Yield Assigned (%)</th>
             <th scope="col">Break Even</th>
-            <th scope="col">Avg Daily Yield ($/d)</th>
-            <th scope="col">ADY(ppm/d)</th>
-            
+            <th scope="col">Yield </br> Assigned ($)</th>
+            <!-- <th scope="col">Yield </br> Assigned (%)</th> -->
+
+            {% if not simple %}
+              <th scope="col">Avg </br> Daily </br> Yield ($/d)</th>
+              <th scope="col">ADY(ppm/d)</th>
+            {% endif %}
             
             
           </tr>
@@ -61,15 +66,18 @@
         <tbody>
           {% if chain %}
             {% for option in chain %}
-              <tr class="">
-                <th scope="row" class = "{% if option.strike > quote.last %}text-warning{% else %}text-success{% endif %}">${{option.strike}}</th>
+              <tr class="{% if option.strike > quote.last %}btn-outline-secondary{% else %}btn-outline-primary{% endif %}">
+                <!-- <th scope="row" class = "{% if option.strike > quote.last %}text-warning{% else %}text-success{% endif %}">${{option.strike}}</th> -->
+                <th scope="row" class = "{% if option.strike > quote.last %}{% else %}text-info{% endif %}"><b>${{option.strike}}</b></th>
+
                 <td>{{option.mark | round(2)}}</td>
-                <td class="text-success"><b>${{option.assignment_gain | round(2)}} </b></td>
-                <td>{{option.assignment_gain_percent | round(2)}}%</td>
-                <td>{{option.break_even | round(2)}}</td>
-                <td>{{option.time_gain | round(2)}}</td>
-                <td>{{(10000*option.time_gain_percent) | round }}</td>
-                 
+                <td class="text-warning">{{option.break_even | round(2)}}</td>
+                <td class="text-success"><b>${{option.assignment_gain | round(2)}} </b> ({{option.assignment_gain_percent | round(2)}}%)</td>
+                <!-- <td></td> -->
+                {% if not simple %}
+                  <td>{{option.time_gain | round(2)}}</td>
+                  <td>{{(10000*option.time_gain_percent) | round }}</td>
+                {% endif %} 
                 
               </tr>              
             {% endfor %}
